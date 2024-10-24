@@ -64,23 +64,8 @@ a 10 unidades para mais 10% */
 UPDATE PRODUTO p
 	SET p.PRECO_UNITARIO = p.PRECO_UNITARIO + p.PRECO_UNITARIO * 0.10
    WHERE p.QUANTIDADE_ESTOQUE < 10
-   
-   
-/* 10 - Selecione os 10 maiores devedores trazendo código, nome, idade
-e a soma total dos débitos vencidos e a soma total dos débitos pagos */
-  
-SELECT FIRST 10 CLIENTE.ID_CLIENTE, PESSOA.NOME, 
-EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM PESSOA.DATA_NASCIMENTO) AS IDADE, COALESCE((
-SELECT SUM(DEBITOS.VALOR_TOTAL) FROM DEBITOS
-	WHERE DEBITOS.ID_CLIENTE = CLIENTE.ID_CLIENTE
-		AND DEBITOS.DATAVENCIMENTO < CURRENT_DATE
-		AND DEBITOS.SITUACAO_DEBITO IN ('Atrasado', 'Pendente')),0) AS DEBITO_PENDENTE, (SELECT SUM(DEBITOS.VALOR_TOTAL) FROM DEBITOS
-	WHERE DEBITOS.ID_CLIENTE = CLIENTE.ID_CLIENTE
-		AND SITUACAO_DEBITO = 'Pago') AS DEBITO_PAGO FROM PESSOA
-			INNER JOIN CLIENTE ON CLIENTE.ID_PESSOA = PESSOA.ID_PESSOA
-ORDER BY 4 DESC
-   
 
+	
 /* 13 - Altere todos os débitos que estão com situação = 'Atrasado' para 'Pagos'
 se o mesmo ter o resgistro na tabela de pagamento */
   
@@ -279,18 +264,3 @@ SELECT p.nome, d.situacao_debito
 		INNER JOIN CLIENTE c ON c.ID_CLIENTE = d.ID_CLIENTE 
 		INNER JOIN PESSOA p ON p.ID_PESSOA = c.ID_PESSOA 
 	WHERE d.SITUACAO_DEBITO = ('Negociado')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
